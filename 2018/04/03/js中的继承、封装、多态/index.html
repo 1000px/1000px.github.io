@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+  <!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  
+  <title>js中的继承、封装、多态 - 三思苑</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+  
+  <meta name="keywords" content=javascript, prototype, 继承、封装、多态>
+  
+    <meta name="description" content="为天上的月亮神魂颠倒，对脚下的六便士视而不见">
+  
+  
+    <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=1.02">
+  
+  
+    <link rel="alternate" href="/atom.xml " title="三思苑" type="application/atom+xml">
+  
+
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+  <body>
+    <div class="container">
+      <header class="header">
+  <div class="blog-title">
+    <a href="/" class="logo">三思苑</a>
+    <div class="subtitle">一只做牛做马的闲云野鹤</div>
+  </div>
+  <nav class="navbar">
+    <ul class="menu">
+      
+        <li class="menu-item">
+          <a href="/" class="menu-item-link">主页</a>
+        </li>
+      
+        <li class="menu-item">
+          <a href="/archives" class="menu-item-link">归档</a>
+        </li>
+      
+        <li class="menu-item">
+          <a href="/about" class="menu-item-link">关于</a>
+        </li>
+      
+    </ul>
+  </nav>
+</header>
+<article class="post">
+  <div class="post-title">
+    <h1 class="article-title">js中的继承、封装、多态</h1>
+  </div>
+   <div class="post-meta">
+    <span class="post-time">2018-04-03</span>
+  </div>
+  <div class="post-content">
+    <p>继承</p>
+<p>子承父业，叫继承，业在这里指的就是可以为子类继承的属性和方法了。</p>
+<p>js中的继承大约可以分两类：1、类继承，2、原型继承</p>
+<p>1、类继承<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 先声明一个超类</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Person</span>(<span class="params">name</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.name = name;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 给这个超类的原型对象上添加方法</span></span><br><span class="line">Person.prototype.getName = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.name;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 实例化一个超类</span></span><br><span class="line"><span class="keyword">var</span> p = <span class="keyword">new</span> Person(<span class="string">'1000px'</span>);</span><br><span class="line"><span class="built_in">console</span>.log(p.getName()); <span class="comment">// 1000px</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 再声明一个类</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Programmer</span>(<span class="params">name, sex</span>) </span>&#123;</span><br><span class="line">    <span class="comment">// 调用超类的构造函数，并将name传入</span></span><br><span class="line">    Person.call(<span class="keyword">this</span>, name);</span><br><span class="line">    <span class="keyword">this</span>.sex = sex;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 子类的原型对象指向超类实例</span></span><br><span class="line">Programmer.prototype = <span class="keyword">new</span> Person();</span><br><span class="line"><span class="comment">// 将子类的构造函数重新指向Programmer 注1</span></span><br><span class="line">Programmer.prototype.constructor = Programmer;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 在子类原型对象上注册方法</span></span><br><span class="line">Programmer.prototype.getSex = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.sex;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 实例化一个子类</span></span><br><span class="line"><span class="keyword">var</span> m = <span class="keyword">new</span> Programmer(<span class="string">'2000px'</span>, <span class="string">'male'</span>);</span><br><span class="line"><span class="built_in">console</span>.log(m.getName());</span><br><span class="line"><span class="built_in">console</span>.log(m.getSex())</span><br></pre></td></tr></table></figure></p>
+
+  </div>
+  <div class="post-footer">
+    
+      <ul class="post-tag-list"><li class="post-tag-list-item"><a class="post-tag-list-link" href="/tags/javascript-prototype-继承、封装、多态/">javascript, prototype, 继承、封装、多态</a></li></ul>
+    
+
+    <a href="#top" class="top">返回顶部</a>
+  </div>
+</article>
+<footer>
+  &copy; 2018
+  <span class="author">
+    1000px
+  </span>
+</footer>
+    </div>
+  </body>
+</html>
