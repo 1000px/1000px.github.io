@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+  <!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  
+  <title>Webpack使用系列笔记(一) - 三思苑</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+  
+  <meta name="keywords" content=Webpack, Loader, JavaScript>
+  
+    <meta name="description" content="为天上的月亮神魂颠倒，对脚下的六便士视而不见">
+  
+  
+    <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=1.02">
+  
+  
+    <link rel="alternate" href="/atom.xml " title="三思苑" type="application/atom+xml">
+  
+
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+  <body>
+    <div class="container">
+      <header class="header">
+  <div class="blog-title">
+    <a href="/" class="logo">三思苑</a>
+    <div class="subtitle">一只做牛做马的闲云野鹤</div>
+  </div>
+  <nav class="navbar">
+    <ul class="menu">
+      
+        <li class="menu-item">
+          <a href="/" class="menu-item-link">主页</a>
+        </li>
+      
+        <li class="menu-item">
+          <a href="/archives" class="menu-item-link">归档</a>
+        </li>
+      
+        <li class="menu-item">
+          <a href="/about" class="menu-item-link">关于</a>
+        </li>
+      
+    </ul>
+  </nav>
+</header>
+<article class="post">
+  <div class="post-title">
+    <h1 class="article-title">Webpack使用系列笔记(一)</h1>
+  </div>
+   <div class="post-meta">
+    <span class="post-time">2018-04-05</span>
+  </div>
+  <div class="post-content">
+    <h3 id="简述"><a href="#简述" class="headerlink" title="简述"></a>简述</h3><p>Webpack是一个打包模块化JavaScript的工具，在Webpack中一切文件皆模块，通过Loader转换文件，通过Plugin注入钩子，最后输出由多个模块组合成的文件。Webpack专注于构建模块化项目。<br>一切文件：JavaScript、CSS、SCSS、图片、模块，在Webpack眼中都是一个个模块，这样的好处是能清晰的描述出各个模块之间的依赖关系，以方便Webpack对模块进行组合和打包。<br>经过Webpack的处理，最终会输出浏览器能使用的静态资源。<br>Webpack的优点是：</p>
+<ul>
+<li>专注于处理模块化的项目，能做到开箱即用一步到位</li>
+<li>通过Plugin扩展，完整好用又不失灵活</li>
+<li>使用场景不仅限于Web开发</li>
+<li>良好的开发体验</li>
+<li>社区活跃，紧跟前端时代发展特性</li>
+</ul>
+<h3 id="前端构建工具要做什么事情？"><a href="#前端构建工具要做什么事情？" class="headerlink" title="前端构建工具要做什么事情？"></a>前端构建工具要做什么事情？</h3><p>在开发中，使用构建工具，主要目的只有一个，削减开发成本，大体罗列如下：<br>1、代码转换<br>2、文件优化：压缩js或图片等<br>3、代码分割：提取多个页面的公共代码、提取首屏不需要执行部分的代码让其异步加载<br>4、模块合并<br>5、自动刷新<br>6、代码校验<br>7、自动发布<br>webpack等自动化工具体现了前端领域工程化、自动化的流行趋势，给前端开发带来了更大的活力，解放了程序员的生产力。</p>
+<h3 id="Loader"><a href="#Loader" class="headerlink" title="Loader"></a>Loader</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> path = <span class="built_in">require</span>(<span class="string">'path'</span>);</span><br><span class="line"></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">    <span class="comment">// JavaScript 执行入口文件</span></span><br><span class="line">    entry: <span class="string">'./main.js'</span>,</span><br><span class="line">    output: &#123;</span><br><span class="line">        <span class="comment">// 把所有依赖的模块合并输出到一个bundle.js文件</span></span><br><span class="line">        filename: <span class="string">'bundle.js'</span>,</span><br><span class="line">        <span class="comment">// 输出文件都放到dist目录下</span></span><br><span class="line">        path: path.resolve(__dirname, <span class="string">'./dist'</span>)</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="built_in">module</span>: &#123;</span><br><span class="line">        rules: [</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="comment">// 使用正则去匹配要用该loader转换的css文件</span></span><br><span class="line">                test: <span class="regexp">/\.css$/</span>,</span><br><span class="line">                use: [<span class="string">'style-loader'</span>, <span class="string">'css-loader?minimize'</span>]</span><br><span class="line">            &#125;</span><br><span class="line">        ]</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Loader可以看作具有文件转换功能的翻译员，配置里的module.rules数组配置了一组规则，告诉了webpack在遇到哪些文件时使用哪些Loader去加载和转换。<br>如上述代码中，webpack遇到.css结尾的文件时先使用css-loader读取CSS文件，再交给style-loader把CSS内容注入到JavaScript里。<br>在配置Loader时需要注意：<br>1、use属性的值需要是一个由Loader名称组成的数组，Loader的执行顺序是由后到前的。<br>2、每一个Loader都可以通过URL querystring的方式传入参数，例如css-loader?minimize中的minimize告诉css-loader要开启CSS压缩。<br>但使用这些Loader之前需要安装：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm i -D style-loader css-loader</span><br></pre></td></tr></table></figure></p>
+<p>style-loader的工作原理大体上是，把CSS内容用JavaScript里的字符串存储起来，在网页执行JavaScript时通过DOM操作动态的往HTML head标签里插入HTML style标签。<br>当然，如果你觉得这种做法会导致JavaScript文件变大并导致加载网页时间变长，想让Webpack单独输出CSS文件，可以通过后续笔记中讲述的Plugin机制来实现。<br>给Loader传入属性的方式除了有querystring外，还可以通过Object传入，以上的Loader配置可以修改如下：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">use: [</span><br><span class="line">    <span class="string">'style-loader'</span>,</span><br><span class="line">    &#123;</span><br><span class="line">        loader:  <span class="string">'css-loader'</span>,</span><br><span class="line">        options: &#123;</span><br><span class="line">            minimize: <span class="literal">true</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">]</span><br></pre></td></tr></table></figure></p>
+<p>除了在webpack.config.js配置文件中配置Loader外，还可以在源码中指定用什么Loader去处理文件。以加载CSS文件为例：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">require</span>(<span class="string">'style-loader!css-loader?minimize!./main.css'</span>);</span><br></pre></td></tr></table></figure></p>
+<p>这样，同样可以在处理main.css文件时先css-loader再style-loader转换。</p>
+<h3 id="Plugin"><a href="#Plugin" class="headerlink" title="Plugin"></a>Plugin</h3><p>Plugin是用来扩展Webpack功能的，通过在构建流程中注入钩子实现。<br>下面的示例通过Plugin把注入到bundle.js文件里的CSS提取到单独的文件中：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> path = <span class="built_in">require</span>(<span class="string">'path'</span>);</span><br><span class="line"><span class="keyword">const</span> ExtractTextPlugin = <span class="built_in">require</span>(<span class="string">'extract-text-webpack-plugin'</span>);</span><br><span class="line"></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">    entry: <span class="string">'./main.js'</span>,</span><br><span class="line">    output: &#123;</span><br><span class="line">        filename: <span class="string">'bundle.js'</span>,</span><br><span class="line">        path: path.resolve(__dirname, <span class="string">'./dist'</span>)</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="built_in">module</span>: &#123;</span><br><span class="line">        rules: [</span><br><span class="line">        &#123;</span><br><span class="line">            test: <span class="regexp">/\.css$/</span>,</span><br><span class="line">            use: ExtractTextPlugin.extract(&#123;</span><br><span class="line">                use: [<span class="string">'css-loader'</span>]</span><br><span class="line">            &#125;)</span><br><span class="line">        &#125;</span><br><span class="line">        ]</span><br><span class="line">    &#125;,</span><br><span class="line">    plugins: [</span><br><span class="line">        <span class="keyword">new</span> ExtractTextPlugin(&#123;</span><br><span class="line">            filename: <span class="string">'[name]-[contenthash:8].css'</span></span><br><span class="line">        &#125;)</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>由于之前已经安装了css-loader，这里再安装一个插件，就可以运行以上代码了：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install --save-dev extract-text-webpack-plugin</span><br></pre></td></tr></table></figure></p>
+<p>plugins属性是一个数组，里面的每一项都是插件的一个实例，在实例化一个组件时可以通过构造函数传入这个组件支持的配置属性。<br>ExtractTextPlugin插件的作用是提取JavaScript代码里的CSS到一个单独的文件里。这里需要配置的属性是filename，更多配置可参阅插件主页文档。</p>
+<h3 id="DevServer"><a href="#DevServer" class="headerlink" title="DevServer"></a>DevServer</h3><p>除了上面的Loader、Plugin之外，实际开发中，可能还需要：<br>1、启用本地服务器<br>2、监听文件更新变化并自动刷新网页，实时预览<br>3、支持Source Map，以方便调试<br>以上这些需求，Webpack原生支持2、3两条，再结合官方提供的开发工具DevServer，就可以方便的启动一个本地的服务器，方便开发调试。<br>DevServer会启动一个Http服务器用于网页请求，同时会帮助启动Webpack，并接收webpack发出的文件变更信号，通过WebSocket协议自动刷新网页做到实时预览。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install --save-dev webpack-dev-server</span><br></pre></td></tr></table></figure></p>
+<p>安装成功后，执行webpack-dev-server命令，DevServer就启动了，控制台可能会有如下这样的日志输出：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Project is running at http:<span class="comment">//localhost:8080/</span></span><br><span class="line">webpack output is served <span class="keyword">from</span> /</span><br></pre></td></tr></table></figure></p>
+<p>DevServer启动后会一直在后台运行，访问这个网址就可以获取根目录下面的index.html。<br>但是此时访问该网址，却获取不到/dist/bundle.js，原因是DevServer会把webpack构建出的文件保存在内存中，在要访问输出的文件时，必须通过HTTP服务访问。但是DevServer不会理会webpack.config.js里配置的output.path属性，所以要获取bundle.js正确的做法是改变引用路径：<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"utf-8"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"app"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"bundle.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<h4 id="实时预览"><a href="#实时预览" class="headerlink" title="实时预览"></a>实时预览</h4><p>webpack默认情况是关闭监听模式的，要想实时监听文件的变化，需要通过webpack –watch来开启监听模式。<br>通过DevServer启动的webpack会开启监听模式，当发生变化时重新执行完构建后通知DevServer。DevServer会让webpack在构建出的JavaScript代码里注入一个代理客户端用于控制网页，网页和DevServer之间通过websocket通信，以方便DevServer主动向客户端发送命令。DevServer在收到来自Webpack的文件变化通知时通过websocket控制网页刷新。<br>但是，如果尝试修改index.html文件并保存，此时并不会触发以上自动更新的机制，导致的原因时Webpack在启动时会以配置里的entry为入口递归解析出entry所依赖的文件，只有entry本身和所依赖的文件才会被监听到。而index.html文件是独立于JavaScript模块化系统的，所以，webpack并不知道它的存在。</p>
+<h4 id="模块热替换"><a href="#模块热替换" class="headerlink" title="模块热替换"></a>模块热替换</h4><p>在DevServer中，除了上面说的，通过刷新整个网页来实现实时预览，还有一种被称作模块热替换的刷新技术。模块热替换能做到在不重新刷新整个网页的情况下，通过将被更新过的模块替换老的模块，再重新执行一次来实现实时预览。<br>这种方式能提供更快的响应和更好的开发体验。默认情况模块热替换功能是关闭的，如果要启用该功能，需要在启动DevServer时带上–hot参数。</p>
+<h4 id="Source-Map"><a href="#Source-Map" class="headerlink" title="Source Map"></a>Source Map</h4><p>经过转换之后的JavaScript代码可读性很差，很多调试工具可以通过Source Map映射代码，方便开发者可以在源代码中进行调试。Webpack支持生成Source Map，只需在启动时带上 –devtool source-map参数。</p>
+<h4 id="综述"><a href="#综述" class="headerlink" title="综述"></a>综述</h4><p>Entry: 入口，Webpack执行构建的第一步将从Entry开始<br>Module: 模块，在Webpack里，一切皆模块，一个模块对应着一个文件。Webpack会从配置的Entry开始递归找出所有依赖的模块。<br>Chunk: 代码块，一个Chunk由多个模块组合而成，用于代码合并与分割<br>Loader: 模块转换器，用于把模块原内容按照需求转换成新的内容<br>Plugin: 扩展插件，在Webpack构建流程中的特定时机注入扩展逻辑以期得到想要的结果<br>Output: 输出结果</p>
+
+  </div>
+  <div class="post-footer">
+    
+      <ul class="post-tag-list"><li class="post-tag-list-item"><a class="post-tag-list-link" href="/tags/Webpack-Loader-JavaScript/">Webpack, Loader, JavaScript</a></li></ul>
+    
+
+    <a href="#top" class="top">返回顶部</a>
+  </div>
+</article>
+<footer>
+  &copy; 2018
+  <span class="author">
+    1000px
+  </span>
+</footer>
+    </div>
+  </body>
+</html>

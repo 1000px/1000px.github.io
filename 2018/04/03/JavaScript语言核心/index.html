@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+  <!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  
+  <title>JavaScript语言核心 - 三思苑</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+  
+  <meta name="keywords" content=JavaScript>
+  
+    <meta name="description" content="为天上的月亮神魂颠倒，对脚下的六便士视而不见">
+  
+  
+    <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=1.02">
+  
+  
+    <link rel="alternate" href="/atom.xml " title="三思苑" type="application/atom+xml">
+  
+
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+  <body>
+    <div class="container">
+      <header class="header">
+  <div class="blog-title">
+    <a href="/" class="logo">三思苑</a>
+    <div class="subtitle">一只做牛做马的闲云野鹤</div>
+  </div>
+  <nav class="navbar">
+    <ul class="menu">
+      
+        <li class="menu-item">
+          <a href="/" class="menu-item-link">主页</a>
+        </li>
+      
+        <li class="menu-item">
+          <a href="/archives" class="menu-item-link">归档</a>
+        </li>
+      
+        <li class="menu-item">
+          <a href="/about" class="menu-item-link">关于</a>
+        </li>
+      
+    </ul>
+  </nav>
+</header>
+<article class="post">
+  <div class="post-title">
+    <h1 class="article-title">JavaScript语言核心</h1>
+  </div>
+   <div class="post-meta">
+    <span class="post-time">2018-04-03</span>
+  </div>
+  <div class="post-content">
+    <blockquote>
+<p>文中内容摘自《JavaScript权威指南》第六版</p>
+</blockquote>
+<h3 id="词法结构"><a href="#词法结构" class="headerlink" title="词法结构"></a>词法结构</h3><h3 id="类型、值和变量"><a href="#类型、值和变量" class="headerlink" title="类型、值和变量"></a>类型、值和变量</h3><h3 id="表达式和运算符"><a href="#表达式和运算符" class="headerlink" title="表达式和运算符"></a>表达式和运算符</h3><h3 id="语句"><a href="#语句" class="headerlink" title="语句"></a>语句</h3><h3 id="对象"><a href="#对象" class="headerlink" title="对象"></a>对象</h3><h3 id="数组"><a href="#数组" class="headerlink" title="数组"></a>数组</h3><h3 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h3><hr>
+<p>一、词法结构</p>
+<ul>
+<li>编程语言的词法结构是一套基础性规则，用来描述如何使用这门语言来编写程序。</li>
+<li>它规定了诸如变量名是什么样的、怎么写注释，以及程序语句之间如何分隔等规则。<br>1、字符集<br>JavaScript程序是用Unicode字符集编写的。<br>1.1 区分大小写<br>需要注意的是，HTML并不区分大小写，由于它与客户端JavaScript联系紧密，许多客户端js对象和属性与他们所表示的HTML标签和属性同名。在HTML中，这些标签和属性名可以大写也可以小写，而在js中则必须是小写。例如，在HTML中设置事件处理程序时，onclick属性可以写成onClick，但在js代码中就必须使用全小写的方式。<br>1.2 空格、换行符和格式控制符<br>JavaScript会忽略程序中标识之间的空格。多数情况下，同样会忽略换行符，由于可以在代码中随意使用空格和换行，因此可以采用整齐、一致的缩进来形成统一的编码风格，从而提高代码的可读性。<br>2、 注释<br>// 单行注释<br>/<em><br> 这里是多行注释<br> 还可以写……
+</em>/<br>3、直接量<br>所谓直接量（literal），就是程序中直接使用的数据值。比如：<br>12 // 数字<br>‘hello world’ // 字符串文本<br>true // 布尔值<br>/javascript/gi // 正则表达式直接量<br>4、可选的分号<br>js用分号来将语句分开。常见有两种编程风格：每条语句都用分号结束，只在必须使用分号进行分割的时候才使用。<br>无论是哪一种风格，都需要注意以下几个细节：</li>
+</ul>
+<p>七、函数<br>函数是这样一段js代码，定义一次，可以被执行或调用任意次。函数的定义会包括一个形参，形参在函数体内像局部变量一样工作。函数在调用时提供实参。除了实参之外，每次调用还会拥有另一个值–本次调用的上下文–这就是this关键字的值。<br>如果函数挂在在一个对象上，作为对象的一个属性，就称它为对象的方法。当通过这个对象来调用函数时，该对象就是此次调用的上下文（context），也就是该函数的this的值。</p>
+
+  </div>
+  <div class="post-footer">
+    
+      <ul class="post-tag-list"><li class="post-tag-list-item"><a class="post-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li></ul>
+    
+
+    <a href="#top" class="top">返回顶部</a>
+  </div>
+</article>
+<footer>
+  &copy; 2018
+  <span class="author">
+    1000px
+  </span>
+</footer>
+    </div>
+  </body>
+</html>
